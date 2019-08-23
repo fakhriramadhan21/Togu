@@ -26,7 +26,11 @@
 				<label class="col-sm-3 control-label no-padding-right" for="cloth_code"> Order Status : </label>
 
 				<div class="col-sm-9">
-					<input type="text" name="cloth_code" class="form-control" value="<?php echo $row->order_status ;?>" />
+					<!-- <input type="text" name="cloth_code" class="form-control" value="<?php echo $row->order_status ;?>" /> -->
+					<select class="form-control" id="status" name="cloth_code">
+						<option value="Paid" <?php if($row->order_status == "Paid"){echo'selected="selected"';} ;?> >Paid</option>
+						<option value="Not Paid" <?php if($row->order_status == "Not Paid"){echo'selected="selected"';} ;?>>Not Paid</option>
+					</select>
 				</div>
 			</div>
 

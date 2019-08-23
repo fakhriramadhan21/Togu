@@ -68,18 +68,11 @@
 												<div class="clearfix">
 													<div class="pull-right tableTools-container"></div>
 												</div>
-												<h1>ORDER</h1> 
-												<h1>
-													<?php
-													foreach ($result->result_array() as $entry){
-														echo $entry['invoice_no'];
-													}
-													?>
-												</h1>
+				
 												<div class="table-header" style="background:#A069C3!important;">
 													Cloths List 
 												</div>
-
+												
 												<!-- div.table-responsive -->
 
 												<!-- div.dataTables_borderWrap -->
@@ -96,7 +89,7 @@
 																<th>ID</th>
 																<th>Customer ID</th>
 																<th> Total Paid</th>
-
+																<th>Status</th>
 																
 
 																<th></th>
@@ -104,6 +97,7 @@
 														</thead>
 
 														<tbody>
+														
 															<?php foreach ($result->result_array() as $entry){ ?>
 															<tr>
 																<td class="center">
@@ -118,6 +112,7 @@
 																</td>
 																<td><?php echo $entry['customer_id']; ?> </td>
 																<td class=""><?php echo $entry['total_paid']; ?> </td>
+																<td class=""><?php echo $entry['order_status']; ?> </td>
 																
 																<td>
 																	<div class="hidden-sm hidden-xs action-buttons">
@@ -202,10 +197,16 @@
 										<div class="space-4"></div>
 										
 										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Customer ID : </label>
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Customer : </label>
 
 											<div class="col-sm-9">
-												<input type="number" name="cloth_name" class="form-control" placeholder="00000" required  autofocus/>
+												<!-- <input type="number" name="customer_id" class="form-control" placeholder="00000" required  autofocus/> -->
+												<select class="form-control" name="customer_id" required  autofocus>
+												<?php foreach ($result_customer->result_array() as $entry){ ?>
+													<option value="<?php echo $entry['first_name']; ?>"><?php echo $entry['first_name']; ?></option>
+												<?php } ?>
+												</select>
+												
 											</div>
 										</div>
 
@@ -213,7 +214,7 @@
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Order Date : </label>
 
 											<div class="col-sm-9">
-												<input type="date" name="cloth_name" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+												<input type="date" name="order_date" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
 											</div>
 										</div>
 
@@ -221,7 +222,7 @@
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> QTY (Kg) : </label>
 
 											<div class="col-sm-9">
-												<input type="number" name="cloth_name" class="form-control" placeholder="00" required  autofocus/>
+												<input type="number" name="qty" class="form-control" placeholder="00" required  autofocus/>
 											</div>
 										</div>
 
@@ -229,7 +230,7 @@
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Discount(%) : </label>
 
 											<div class="col-sm-9">
-												<input type="number" name="cloth_name" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+												<input type="number" name="discount" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
 											</div>
 										</div>
 
@@ -237,7 +238,7 @@
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Tax : </label>
 
 											<div class="col-sm-9">
-												<input type="number" name="cloth_name" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+												<input type="number" name="tax" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
 											</div>
 										</div>
 
@@ -245,7 +246,7 @@
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Total Paid : </label>
 
 											<div class="col-sm-9">
-												<input type="number" name="cloth_name" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+												<input type="number" name="total_paid" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
 											</div>
 										</div>
 
@@ -253,7 +254,11 @@
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Status : </label>
 
 											<div class="col-sm-9">
-												<input type="text" name="cloth_name" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+												<!-- <input type="text" name="status" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/> -->
+												<select class="form-control" id="status" name="status" required  autofocus>
+													<option value="Paid">Paid</option>
+													<option value="Not Paid">Not Paid</option>
+												</select>
 											</div>
 										</div>
 
@@ -265,6 +270,75 @@
 											</div>
 										</div> -->
 
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Invoice Number : </label>
+
+											<div class="col-sm-9">
+												<input type="text" id="invoice" name="invoice" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Order Month : </label>
+
+											<div class="col-sm-9">
+												<input type="text" id="month" name="month" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Package : </label>
+
+											<div class="col-sm-9">
+												<!-- <input type="text" name="status" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/> -->
+												
+												<select class="form-control" onchange="Paket()" class="form-control" id="paket" required  autofocus>
+													<option value="1">1 Hari</option>
+													<option value="3">3 Hari</option>
+													<option value="7">7 Hari</option>
+												</select>
+											</div>
+										</div>
+
+										<!-- <div class="form-group">
+											<label for="exampleFormControlSelect1">Package</label>
+											<select onchange="Paket()" class="form-control" id="paket">
+											<option value="1">1 Hari</option>
+											<option value="3">3 Hari</option>
+											<option value="7">7 Hari</option>
+											</select>
+										</div> -->
+
+										
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Delivery Date : </label>
+
+											<div class="col-sm-9">
+												<input type="text" id="deliv" name="delivery" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Desc : </label>
+
+											<div class="col-sm-9">
+												<input type="text" name="desc" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Paid to : </label>
+
+											<div class="col-sm-9">
+												<!-- <input type="text" name="paidto" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/> -->
+												<select class="form-control" name="paidto" required  autofocus>
+												<?php foreach ($result_employee->result_array() as $entry){ ?>
+													<option value="<?php echo $entry['first_name']; ?>"><?php echo $entry['first_name']; ?></option>
+												<?php } ?>
+												</select>
+											</div>
+										</div>
 
 										<div class="clearfix form-actions">
 											<div class="col-md-offset-3 col-md-9">
@@ -342,6 +416,30 @@
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
+			const monthNames = ["January", "February", "March", "April", "May", "June",
+			"July", "August", "September", "October", "November", "December"
+			];
+
+			const d = new Date();
+			
+			
+			
+			// var strUser = parseInt(interval);
+			function Paket(){
+				var e = document.getElementById("paket");
+				var interval = e.options[e.selectedIndex].value;
+				var interval_date = parseInt(interval);
+			
+				//create the date
+				const d_interval = new Date();
+				document.getElementById("deliv").value = d_interval.toDateString(d_interval.setDate(d_interval.getDate() + interval_date));
+				// document.getElementById('deliv').value = interval);
+			}
+
+			document.getElementById('invoice').value = Math.floor(Math.random() * 100000);
+			document.getElementById('month').value = monthNames[d.getMonth()];
+			// document.getElementById('delivery').value = "interval");
+			
 			jQuery(function($) {
 				//initiate dataTables plugin
 				var myTable = 

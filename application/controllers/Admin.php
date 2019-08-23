@@ -57,16 +57,44 @@ class Admin extends CI_Controller {
 	
 	function Order()
 	{	
+		$data['result_customer']=$this->db->select('*')->from('users')->get();
+		$data['result_employee']=$this->db->select('*')->from('employee')->get();
 		$data['result']=$this->db->select('*')->from('customer_order')->get();
 		$this->load->view('admin/order',$data);
 	}
 
 	function order_crud($param1='', $param2='')
 	{	if($param1=='create')
-		{	$cloth_type=$this->input->post('cloth_name');
-			$cloth_code=$this->input->post('cloth_code');
-			$data = array('cloth_type' => $cloth_type, 'cloth_code' => $cloth_code );
-			if($this->db->insert('cloths', $data)===TRUE)		// using direct parameter
+		{	$customer_id=$this->input->post('customer_id');
+			$order_date=$this->input->post('order_date');
+			$qty=$this->input->post('qty');
+			$discount=$this->input->post('discount');
+			$tax=$this->input->post('tax');
+			$total_paid=$this->input->post('total_paid');
+			$status=$this->input->post('status');
+
+			$invoice=$this->input->post('invoice');
+			$order_month=$this->input->post('month');
+			$delivery_date=$this->input->post('delivery');
+			$desc=$this->input->post('desc');
+			$paid_to=$this->input->post('paidto');
+			// $cloth_code=$this->input->post('cloth_code');
+			$data = array(
+				'customer_id' => $customer_id,
+				'order_date' => $order_date, 
+				'total_qty' => $qty,
+				'discount' => $discount,
+				'service_tax' => $tax,
+				'total_paid' => $total_paid,
+				'order_status' => $status,
+				
+				'invoice_no' => $invoice,
+				'discount' => $order_month,
+				'delivery_date' => $delivery_date,
+				'remarks' => $desc,
+				'amt_paidby' => $paid_to
+			 );
+			if($this->db->insert('customer_order', $data)===TRUE)		// using direct parameter
 			{
 			?>
 			<script> alert(" Record Added Successfully"); </script>
