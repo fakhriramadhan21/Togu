@@ -7,7 +7,7 @@
 					<i class="ace-icon fa fa-home home-icon"></i>
 					<a href="#">Master</a>
 				</li>
-				<li class="active">Order</li>
+				<li class="active">Cloth Type</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -27,7 +27,7 @@
 					Master
 					<small>
 						<i class="ace-icon fa fa-angle-double-right"></i>
-						Order Management 
+						Cloth Management 
 					</small>
 				</h1>
 			</div><!-- /.page-header -->
@@ -42,7 +42,7 @@
 									<li class="active">
 										<a data-toggle="tab" href="#list">
 											<i class="purple ace-icon fa fa-list bigger-120"></i>
-											Order List 
+											Cloth List 
 										</a>
 									</li>
 
@@ -50,7 +50,6 @@
 										<a data-toggle="tab" href="#newentry">
 											<i class="green ace-icon fa fa-plus bigger-120"></i>
 											New Entry 
-											
 										</a>
 									</li>
 								</ul>
@@ -72,6 +71,33 @@
 												<div class="table-header" style="background:#A069C3!important;">
 													Cloths List 
 												</div>
+												<h1>Daily Order :<h1>Rp. <?php echo $daily_order; ?> </h1></h1>
+												<h1>Weekly Order :<h1>Rp. <?php echo $weekly_order; ?> </h1></h1>
+												<h1>Monthly Order :<h1>Rp. <?php echo $monthly_order; ?> </h1></h1>
+												<h1>Lifetime Order :<h1>Rp. <?php echo $lifetime_order; ?> </h1>
+												</h1>
+												</h1>
+												<br>
+												<h1>Daily Income :
+												<?php foreach ($daily_income->result_array() as $entry){ ?>
+														<h1>Rp. <?php echo $entry['total']; ?> </h1>
+													<?php } ?>
+												</h1>
+												<h1>Weekly Income :
+												<?php foreach ($weekly_income->result_array() as $entry){ ?>
+														<h1>Rp. <?php echo $entry['total']; ?> </h1>
+													<?php } ?>
+												</h1>
+												<h1>Monthly Income :
+													<?php foreach ($monthly_income->result_array() as $entry){ ?>
+														<h1>Rp. <?php echo $entry['total']; ?> </h1>
+													<?php } ?>
+												</h1>
+												<h1>Lifetime Income :
+													<?php foreach ($lifetime_income->result_array() as $entry){ ?>
+														<h1>Rp. <?php echo $entry['total']; ?> </h1>
+													<?php } ?>
+												</h1>
 												
 												<!-- div.table-responsive -->
 
@@ -184,7 +210,7 @@
 										<?php $attributes = array('class' => 'form-horizontal', 'id' => 'cloth_form','enctype' => 'multipart/form-data');
 										echo form_open('admin/order_crud/create',$attributes); ?>
 										<div class="table-header" style="background:#69AA46!important;">
-													New Order Record 
+													New Cloth Record 
 												</div> <br/>
 										<!-- <div class="form-group ">
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_id"> Cloth ID : </label>
@@ -196,14 +222,6 @@
 										
 										<div class="space-4"></div>
 										
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Invoice Number : </label>
-
-											<div class="col-sm-9">
-												<input type="text" id="invoice" name="invoice" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
-											</div>
-										</div>
-
 										<div class="form-group">
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Customer : </label>
 
@@ -230,7 +248,7 @@
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> QTY (Kg) : </label>
 
 											<div class="col-sm-9">
-												<input type="number" id="qty" name="qty" class="form-control" placeholder="00" required  autofocus/>
+												<input type="number" name="qty" class="form-control" placeholder="00" required  autofocus/>
 											</div>
 										</div>
 
@@ -238,7 +256,7 @@
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Discount(%) : </label>
 
 											<div class="col-sm-9">
-												<input type="number" name="discount" id="discount" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+												<input type="number" name="discount" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
 											</div>
 										</div>
 
@@ -246,7 +264,15 @@
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Tax : </label>
 
 											<div class="col-sm-9">
-												<input type="number" name="tax" id="tax" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+												<input type="number" name="tax" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Total Paid : </label>
+
+											<div class="col-sm-9">
+												<input type="number" name="total_paid" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
 											</div>
 										</div>
 
@@ -262,11 +288,29 @@
 											</div>
 										</div>
 
-												<input type="hidden" id="month" name="month" class="form-control" required  autofocus disabled/>
-												<input type="hidden" id="deliv" name="delivery" required  autofocus disabled/>
-												<input type="hidden" id="harga" name="delivery" required  autofocus disabled/>
-												<input type="hidden" id="package" name="delivery" required  autofocus disabled/>
-									
+										<!-- <div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_code"> Cloth Code : </label>
+
+											<div class="col-sm-9">
+												<input type="text" name="cloth_code" class="form-control" />
+											</div>
+										</div> -->
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Invoice Number : </label>
+
+											<div class="col-sm-9">
+												<input type="text" id="invoice" name="invoice" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Order Month : </label>
+
+											<div class="col-sm-9">
+												<input type="text" id="month" name="month" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
+											</div>
+										</div>
 
 										<div class="form-group">
 											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Package : </label>
@@ -275,10 +319,29 @@
 												<!-- <input type="text" name="status" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/> -->
 												
 												<select class="form-control" onchange="Paket()" class="form-control" id="paket" required  autofocus>
-													<?php foreach ($result_package->result_array() as $entry){ ?>
-														<option value="<?php echo $entry['duration']; ?>" name="<?php echo $entry['price_kg']; ?>" name1="<?php echo $entry['service_name']; ?>"><?php echo $entry['service_name']; ?></option>
-													<?php } ?>
+													<option value="1">1 Hari</option>
+													<option value="3">3 Hari</option>
+													<option value="7">7 Hari</option>
 												</select>
+											</div>
+										</div>
+
+										<!-- <div class="form-group">
+											<label for="exampleFormControlSelect1">Package</label>
+											<select onchange="Paket()" class="form-control" id="paket">
+											<option value="1">1 Hari</option>
+											<option value="3">3 Hari</option>
+											<option value="7">7 Hari</option>
+											</select>
+										</div> -->
+
+										
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Delivery Date : </label>
+
+											<div class="col-sm-9">
+												<input type="text" id="deliv" name="delivery" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/>
 											</div>
 										</div>
 
@@ -296,19 +359,10 @@
 											<div class="col-sm-9">
 												<!-- <input type="text" name="paidto" class="form-control" placeholder="Shirt,Pants,Trousher etc" required  autofocus/> -->
 												<select class="form-control" name="paidto" required  autofocus>
-													<option value="Not Paid">Not Paid</option>
 												<?php foreach ($result_employee->result_array() as $entry){ ?>
 													<option value="<?php echo $entry['first_name']; ?>"><?php echo $entry['first_name']; ?></option>
 												<?php } ?>
 												</select>
-											</div>
-										</div>
-
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="cloth_name"> Total Paid : </label>
-
-											<div class="col-sm-9">
-												<input type="text" id="total_paid" name="total_paid" class="form-control" placeholder="Shirt,Pants,Trousher etc" required autofocus/>
 											</div>
 										</div>
 
@@ -398,30 +452,12 @@
 			
 			// var strUser = parseInt(interval);
 			function Paket(){
-				var harga_kg= $('#paket').find('option:selected').attr("name");
-				var paket= $('#paket').find('option:selected').attr("name1");
-
-				var qty=document.getElementById("qty").value;
-				var tax=document.getElementById("tax").value;
-				var discount=document.getElementById("discount").value;
-
-				
-				var hargakotor = harga_kg*qty;
-				var pajak = (tax/100) * hargakotor;
-				var diskon = hargakotor * (discount/100);
-
-				hargabersih = hargakotor +tax - diskon;
-
 				var e = document.getElementById("paket");
 				var interval = e.options[e.selectedIndex].value;
 				var interval_date = parseInt(interval);
 			
 				//create the date
 				const d_interval = new Date();
-
-				document.getElementById("harga").value = harga_kg;
-				document.getElementById("package").value = paket;
-				document.getElementById("total_paid").value = hargabersih;
 				document.getElementById("deliv").value = d_interval.toDateString(d_interval.setDate(d_interval.getDate() + interval_date));
 				// document.getElementById('deliv').value = interval);
 			}

@@ -57,13 +57,111 @@ class Admin extends CI_Controller {
 	
 	function Order()
 	{	
+		$this->session->set_userdata('menu','master');
+		$this->session->set_userdata('submenu','order');
 		$data['result_customer']=$this->db->select('*')->from('users')->get();
 		$data['result_employee']=$this->db->select('*')->from('employee')->get();
+		$data['result_package']=$this->db->select('*')->from('services')->get();
 		$data['result']=$this->db->select('*')->from('customer_order')->get();
 		$this->load->view('admin/order',$data);
 	}
 
 	function order_crud($param1='', $param2='')
+	{	if($param1=='create')
+		{	$customer_id=$this->input->post('customer_id');
+			$order_date=$this->input->post('order_date');
+			$qty=$this->input->post('qty');
+			$discount=$this->input->post('discount');
+			$tax=$this->input->post('tax');
+			$total_paid=$this->input->post('total_paid');
+			$status=$this->input->post('status');
+
+			$invoice=$this->input->post('invoice');
+			$order_month=$this->input->post('month');
+			$delivery_date=$this->input->post('delivery');
+			$desc=$this->input->post('desc');
+			$paid_to=$this->input->post('paidto');
+			// $cloth_code=$this->input->post('cloth_code');
+			$data = array(
+				'customer_id' => $customer_id,
+				'order_date' => $order_date, 
+				'total_qty' => $qty,
+				'discount' => $discount,
+				'service_tax' => $tax,
+				'total_paid' => $total_paid,
+				'order_status' => $status,
+				
+				'invoice_no' => $invoice,
+				'discount' => $order_month,
+				'delivery_date' => $delivery_date,
+				'remarks' => $desc,
+				'amt_paidby' => $paid_to
+			 );
+			if($this->db->insert('customer_order', $data)===TRUE)		// using direct parameter
+			{
+			?>
+			<script> alert(" Record Added Successfully"); </script>
+			<?php
+			redirect('admin/order','refresh');
+			}	
+		}
+		
+		if($param1=='do_update')
+		{	$query['cloths_edit'] = $this->db->get_where('customer_order' , array('invoice_no' => $param2) )->result();
+			$this->load->view('admin/order_update',$query);
+		}
+		
+		if ($param1 == 'modify') 
+		{   $data['invoice_no']= $this->input->post('cloth_name');
+            $data['order_status'] = $this->input->post('cloth_code');
+			$this->db->where('invoice_no' , $param2);
+			
+			if($this->db->update('customer_order' , $data)===TRUE)		// using direct parameter
+			{
+			?>
+			<script> alert(" Record Updated Successfully"); </script>
+			<?php
+			redirect('admin/order','refresh');
+			}
+		}
+		
+		if($param1=='delete')
+		{	$this->db->where('invoice_no' , $param2);
+            if($this->db->delete('customer_order')===TRUE)		// using direct parameter
+			{
+			?>
+			<script> alert(" Record Deleted Successfully"); </script>
+			<?php
+			redirect('admin/order','refresh');
+			}	
+		}
+	}
+
+	// Monthly Order = = >
+	
+	function M_order()
+	{	
+		$data['result_customer']=$this->db->select('*')->from('users')->get();
+		$data['result_employee']=$this->db->select('*')->from('employee')->get();
+		$data['result']=$this->db->select('*')->from('customer_order')->where('order_status', 'Paid')->get();
+
+		$data['daily_order']=$this->db->select('*')->from('customer_order')->where('order_status', 'Paid')->where('order_date', 'NOW()')->count_all_results();
+		$data['weekly_order']=$this->db->select('*')->from('customer_order')->where('order_status', 'Paid')->where('order_date BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW()')->count_all_results();
+		$data['monthly_order']=$this->db->select('*')->from('customer_order')->where('order_status', 'Paid')->where('order_date BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW()')->count_all_results();
+		$data['lifetime_order']=$this->db->select('*')->from('customer_order')->where('order_status', 'Paid')->count_all_results();
+		
+		$data['daily_income']=$this->db->select('SUM(total_paid) as total')->from('customer_order')->where('order_date', 'NOW()')->where('order_status', 'Paid')->get();
+		$data['weekly_income']=$this->db->select('SUM(total_paid) as total')->from('customer_order')->where('order_date BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW()')->where('order_status', 'Paid')->get();
+		$data['monthly_income']=$this->db->select('SUM(total_paid) as total')->from('customer_order')->where('order_date BETWEEN DATE_SUB(NOW(), INTERVAL 31 DAY) AND NOW()')->where('order_status', 'Paid')->get();
+		// $data['monthly_order']=$this->db->select('*')->from('customer_order')->where('order_status', 'Paid')->get();
+		// $data['lifetime_order']=$this->db->select('*')->from('customer_order')->where('order_status', 'Paid')->get();
+
+		$data['lifetime_income']=$this->db->select('SUM(total_paid) as total')->from('customer_order')->where('order_status', 'Paid')->get();
+		// $data['result'] = $this->db->get_where('customer_order' , array('order_status' => 'Not Paid') )->result();
+		$this->load->view('admin/Monthly_order',$data);
+	}
+
+	function M_order_crud($param1='', $param2='')
 	{	if($param1=='create')
 		{	$customer_id=$this->input->post('customer_id');
 			$order_date=$this->input->post('order_date');
@@ -423,7 +521,9 @@ class Admin extends CI_Controller {
 	{	if($param1=='create')
 		{	$service_name=$this->input->post('service_name');
 			$service_code=$this->input->post('service_code');
-			$data = array('service_name' => $service_name, 'service_code' => $service_code );
+			$price=$this->input->post('price');
+			$duration=$this->input->post('duration');
+			$data = array('service_name' => $service_name, 'service_code' => $service_code, 'duration' => $duration, 'price_kg' => $price );
 			if($this->db->insert('services', $data)===TRUE)		// using direct parameter
 			{
 			?>

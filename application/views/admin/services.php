@@ -209,6 +209,22 @@
 											</div>
 										</div>
 
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="service_code"> Price(/KG) : </label>
+
+											<div class="col-sm-9">
+												<input type="text" name="price" class="form-control" />
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="service_code"> Duration (Day) : </label>
+
+											<div class="col-sm-9">
+												<input type="text" name="duration" class="form-control" />
+											</div>
+										</div>
+
 
 										<div class="clearfix form-actions">
 											<div class="col-md-offset-3 col-md-9">

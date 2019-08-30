@@ -45,6 +45,7 @@ $active_submenu=$this->session->userdata('submenu');
 		
 		
 		
+		
 
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="<?php echo base_url();?>assets/css/ace-ie.min.css" />
@@ -228,7 +229,7 @@ $active_submenu=$this->session->userdata('submenu');
 								<b class="arrow"></b>
 							</li>
 
-							<li class="<?php if($active_submenu=='customers') echo "active"; ?>">
+							<li class="<?php if($active_submenu=='order') echo "active"; ?>">
 								<a href="<?php echo base_url();?>index.php/admin/order">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Order
@@ -349,13 +350,15 @@ $active_submenu=$this->session->userdata('submenu');
 							</li>
 
 							<li class="<?php if($active_submenu=='monthrep') echo "active"; ?>">
-								<a href="<?php echo base_url();?>index.php/admin/cloth_prices">
+								<a href="<?php echo base_url();?>index.php/admin/M_order">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Monthly Orders 
 								</a>
 
 								<b class="arrow"></b>
 							</li>
+
+							
 
 							
 						</ul>
